@@ -3,8 +3,8 @@ import numpy as np
 import random
 import time
 
-pygame.init()
-
+pygame.init()                                                                  #Запуск модуля
+#Подгрузка картинок для работы приложения**************************************
 ship_1 = pygame.image.load('images/1_down.png')
 ship_2 = [pygame.image.load('images/2_down.png'), pygame.image.load('images/2_right.png')]
 ship_3 = [pygame.image.load('images/3_down.png'), pygame.image.load('images/3_right.png')]
@@ -13,6 +13,7 @@ font = pygame.font.Font('freesansbold.ttf', 20)
 main_screen = pygame.image.load('images/main_screen.jpg')
 battlefield = pygame.image.load('images/battlefield.png')
 background = pygame.image.load('images/background.jpg')
+#******************************************************************************
 white = (255, 255, 255)
 black = (0, 0, 0)
 yellow = (223,255,0)
@@ -30,11 +31,11 @@ lmove = 'down'
 game_pvp = False
 game_pve = False
 run = True
-screen = pygame.display.set_mode((900, 500))
-pygame.display.set_caption('Морской бой')
+screen = pygame.display.set_mode((900, 500))                                   #Задача размеров окна
+pygame.display.set_caption('Морской бой')                                      #Название окна
+        
 
-
-def main_menu():
+def main_menu():                                                               #создание меню
     text_1 = 'Играть против компьютера'
     text_2 = 'Играть против игрока'
     text_3 = 'Выйти'
@@ -60,13 +61,13 @@ def main_menu():
         text3 = font.render(text_3, True, blue, None)
         text3Rect = text.get_rect()
         text3Rect.center = (300, 375)       
-    screen.blit(text, textRect)
+    screen.blit(text, textRect)                                                #Размещение кнопок меню
     screen.blit(text2, text2Rect)
     screen.blit(text3, text3Rect)
-    pygame.display.update()
+    pygame.display.update()                                                    #Обновление экрана
     
-class game:
-    def fill_battlefield_player1():
+class game:                                                                    #Основная часть игры
+    def fill_battlefield_player1():                                            #Заполнение поля для игрока 1
         screen.blit(battlefield, ((150,100)))
         if ship1 > 0:
             screen.blit(ship_1, ((150 + (locx+1)*25, 90 + (locy+1)*25)))
@@ -76,12 +77,12 @@ class game:
             screen.blit(ship_3[i], ((150 + (locx+1)*25, 90 + (locy+1)*25)))
             
         
-        game.draw_field_player1()
+        game.draw_field_player1()                                              #Вызов функции для отрисовки поля
         pygame.display.update()
         
             
     
-    def draw_field_player1():
+    def draw_field_player1():                                                  #Отрисовка поля
         for t in range(10):
             for d in range(10):
                 if bf[t][d] == 'x':
@@ -100,7 +101,7 @@ class game:
                     if (bf[t][d] == 'z' or bf[t][d] == '1') and bf[t+1][d] == 'z' and bf[t+2][d] == 'z':
                         screen.blit(ship_3[0], ((150 + (d+1)* 25, 90 + (t+1)*25))) 
     
-    def draw_battlefield_player1():
+    def draw_battlefield_player1():                                            #Отрисовка второго поля для 1ого игрока
         text_hit = 'X'
         text = font.render(text_hit, True, white, None)
         text_miss = 'O'       
@@ -141,7 +142,7 @@ class game:
                     text2Rect.center = (585 + (d * 25), 78 + (t * 25))   
                     screen.blit(text2, text2Rect)
         
-    def battle_pve():
+    def battle_pve():                                                          #Запуск игры против компьютера
         screen.blit(background, ((0,0))) 
         screen.blit(battlefield, ((100, 50)))
         screen.blit(battlefield, ((550, 50)))
@@ -151,7 +152,7 @@ class game:
         
         
         
-    def fill_battlefield_player2():
+    def fill_battlefield_player2():                                            #Заполнение поля для игрока 1
         screen.blit(battlefield, ((150,100)))
         if ship1 > 0:
             screen.blit(ship_1, ((150 + (locx+1)*25, 90 + (locy+1)*25)))
@@ -166,7 +167,7 @@ class game:
         
             
     
-    def draw_field_player2():
+    def draw_field_player2():                                                  #Отрисовка поля
         for t in range(10):
             for d in range(10):
                 if bf2[t][d] == 'x':
@@ -185,7 +186,7 @@ class game:
                     if (bf2[t][d] == 'z' or bf2[t][d] == '1') and bf2[t+1][d] == 'z' and bf2[t+2][d] == 'z':
                         screen.blit(ship_3[0], ((150 + (d+1)* 25, 90 + (t+1)*25)))   
                     
-    def draw_battlefield_player2():
+    def draw_battlefield_player2():                                            #Отрисовка второго поля для 2ого игрока
         text_hit = 'X'
         text = font.render(text_hit, True, white, None)
         text_miss = 'O'       
@@ -226,7 +227,7 @@ class game:
                     text2Rect.center = (585 + (d * 25), 78 + (t * 25))   
                     screen.blit(text2, text2Rect)
                 
-    def battle_pvp():
+    def battle_pvp():                                                          #Запуск игры против человека
         screen.blit(background, ((0,0))) 
         screen.blit(battlefield, ((100, 50)))
         screen.blit(battlefield, ((550, 50)))
@@ -241,15 +242,15 @@ class game:
         
 
 
-while run:
-    pygame.time.delay(50)
+while run:                                                                     #Основной цикл игры
+    pygame.time.delay(50)                                                      #Задача периода цикла
     
-    for event in pygame.event.get():
+    for event in pygame.event.get():                                           #Если нажали на крест, игра закрывается
         '''выход из игры'''
         if event.type == pygame.QUIT:
             run = False  
     
-    keys = pygame.key.get_pressed()
+    keys = pygame.key.get_pressed()                                            #Регистрация событий нажатия на кнопки
     
     main_menu()
     
